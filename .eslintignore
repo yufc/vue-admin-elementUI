@@ -1,4 +1,5 @@
-/build/
-/config/
-/dist/
-/*.js
+build/*.js
+public/ueditor/*
+public/phone-connect/*
+public/utf8-jsp/*
+

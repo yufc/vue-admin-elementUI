@@ -1,18 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-import routes from '@/router/routes.js'
+import routesConfig from '@/router/routes/index'
 
 Vue.use(Router)
 
-const registerRoute = (navConfig) => {
+const registerRoute = (routesConfig) => {
   const route = []
-  navConfig.forEach((nav) => {
-    var node = buildRoute(nav)
-    if (nav.children) {
+  routesConfig.forEach((item) => {
+    var node = buildRoute(item)
+    if (item.children) {
       node.children = []
-      nav.children.forEach(nav => {
-        node.children.push(buildRoute(nav))
+      item.children.forEach(item => {
+        node.children.push(buildRoute(item))
       })
     }
     route.push(node)
@@ -24,37 +23,37 @@ const registerRoute = (navConfig) => {
       path: '/404'
     }
   })
-  function buildRoute(nav) {
+
+  function buildRoute(item) {
     return {
-      path: nav.path || '',
-      name: nav.name,
-      title: nav.title,
-      hidden: nav.hidden || false,
-      leaf: nav.leaf || false,
-      icon: nav.icon || '',
-      component: () => import(`../views${nav.page}`),
+      path: item.path || '',
+      name: item.name,
+      title: item.title,
+      hidden: item.hidden || false,
+      leaf: item.leaf || false,
+      icon: item.icon || '',
+      component: item.component,
       meta: {
-        bread: !!nav.bread,
-        title: nav.title
+        bread: !!item.bread,
+        title: item.title
       }
     }
   }
-
   return route
 }
 
-const route = registerRoute(routes)
+const routes = registerRoute(routesConfig)
 
-var r = new Router({
-  routes: route
+var router = new Router({
+  routes
 })
 
 const loginUrl = '/login';
-r.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   if (!window.sessionStorage.getItem('user') && to.path !== loginUrl) {
     next(loginUrl);
   } else {
     next()
   }
 })
-export default r
+export default router
