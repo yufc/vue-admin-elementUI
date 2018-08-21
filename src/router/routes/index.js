@@ -3,6 +3,15 @@ import Home from '@/views/home'
 import NotFound from '@/views/404/404'
 import Login from '@/views/login/login'
 
+// 开发环境不使用懒加载, 因为懒加载页面太多的话会造成webpack热更新太慢, 所以只有生产环境使用懒加载
+function _import(url) {
+  if (process.env.NODE_ENV === 'development') {
+    return require(`@/views${url}.vue`).default
+  } else {
+    return url => () => import(`@/views${url}.vue`)
+  }
+}
+
 const routes = [{
   path: '/',
   name: '',
@@ -37,7 +46,7 @@ const routes = [{
   icon: 'fa fa-user fa-lg',
   children: [{
     path: '/user/index',
-    component: () => import('@/views/user/index'),
+    component: _import('/user/index'),
     name: 'UserIndex',
     title: '用户列表',
     bread: true
@@ -51,28 +60,29 @@ const routes = [{
   icon: 'fa fa-table fa-lg',
   children: [{
     path: '/ui/echarts',
-    component: () => import('@/views/ui/echarts'),
+    component: _import('/ui/echarts'),
     name: 'UiEchart',
     title: '图表',
     bread: true
   }, {
     path: '/ui/form',
-    component: () => import('@/views/ui/form'),
+    component: _import('/ui/form'),
     bread: true,
     title: '表单',
     name: 'UiForm'
   }, {
     path: '/ui/ueditor',
-    component: () => import('@/views/ui/ueditor'),
+    component: _import('/ui/ueditor'),
     bread: true,
     title: '编辑',
     name: 'ueditor'
   }, {
     path: '/ui/tree',
-    component: () => import('@/views/ui/tree'),
+    component: _import('/ui/tree'),
     name: 'UiTree',
     title: '树形',
     bread: true
   }]
 }]
+
 export default routes
