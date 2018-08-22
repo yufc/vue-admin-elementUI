@@ -38,7 +38,7 @@ const routes = [{
   title: '首页',
   hidden: true
 }, {
-  path: '/user',
+  path: '/',
   name: 'User',
   title: '用户',
   component: Layout,
@@ -52,7 +52,7 @@ const routes = [{
     bread: true
   }]
 }, {
-  path: '/ui',
+  path: '/',
   title: '分类',
   name: 'Menu',
   component: Layout,
