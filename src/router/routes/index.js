@@ -1,7 +1,7 @@
 import Layout from '@/views/layout/index.vue'
 import Home from '@/views/home'
-import NotFound from '@/views/404/404'
-import Login from '@/views/login/login'
+import NotFound from '@/views/404'
+import Login from '@/views/login'
 
 // 开发环境不使用懒加载, 因为懒加载页面太多的话会造成webpack热更新太慢, 所以只有生产环境使用懒加载
 function _import(url) {
