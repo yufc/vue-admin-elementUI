@@ -4,10 +4,7 @@
   </div>
 </template>
 <script>
-/* eslint-disable */
-// import '../../public/ueditor/ueditor.config.js'
-// import '../../public/ueditor/ueditor.all.min.js'
-// import '../../public/ueditor/lang/zh-cn/zh-cn.js'
+
 export default {
   data() {
       return {

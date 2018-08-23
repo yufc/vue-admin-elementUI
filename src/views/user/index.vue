@@ -4,7 +4,7 @@
       <address-input :initial="address" v-model="address"></address-input>
       <el-button type="primary" @click="addressShow">获取地址</el-button>
     </el-row>
-    <el-table :data="table.data">
+    <el-table :data="table.data" border>
       <el-table-column prop="date" label="日期" width="180">
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="180">

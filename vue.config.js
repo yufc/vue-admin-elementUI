@@ -1,6 +1,6 @@
 var path = require('path')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
@@ -13,10 +13,18 @@ module.exports = {
       .set('utils', resolve('src/utils'))
       .set('common', resolve('src/common'))
       .set('style', resolve('src/assets/style'))
-      .set('image', resolve('src/assets/image'))
+      .set('image', resolve('src/assets/image'));
+
   },
-  pluginOptions: {
+  configureWebpack: config => { 
+  // webpack配置，值位对象时会合并配置，为方法时会改写配置
+    Object.assign(config, { 
+      externals: {
+        'UE': 'window.UE'
+      }
+    })
   },
+  pluginOptions: {},
   devServer: {
     open: true,
     port: 8088,
