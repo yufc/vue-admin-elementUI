@@ -5,21 +5,18 @@ import { Message } from 'element-ui'
 
 const commit = store.commit || store.dispatch
 
-const options = {
-  baseURL: '',
-  timeout: 1000 * 30,
-  withCredentials: true
-}
 const CONTENT_TYPE = 'form'
 
-function createInstance(options) {
-  const headers = {
+const options = {
+  baseURL: process.env.NODE_ENV === 'development' ? '/proxyApi/' : '',
+  timeout: 1000 * 30,
+  withCredentials: true,
+  headers: {
     'Content-Type': CONTENT_TYPE === 'json' ? 'application/json; charset=utf-8' : 'application/x-www-form-urlencoded'
   }
-  return Axios.create(Object.assign(options, headers))
 }
 
-const axios = createInstance(options)
+const axios = Axios.create(options)
 
 //  添加一个请求拦截器
 axios.interceptors.request.use(function(config) {
@@ -59,11 +56,11 @@ var http = function(method, url, data = {}) {
       data
     }).then(({ data }) => {
       resolve(data)
-      // if (data.code === 200) {
-      //   resolve(data)
-      // } else if (data.code === 500) {
-      //   reject(data)
-      // }
+        // if (data.code === 200) {
+        //   resolve(data)
+        // } else if (data.code === 500) {
+        //   reject(data)
+        // }
     })
   })
 }

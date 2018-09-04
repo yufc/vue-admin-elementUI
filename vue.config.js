@@ -29,18 +29,11 @@ module.exports = {
     open: true,
     port: 8088,
     proxy: {
-      '/api': {
-        target: 'http://admin.test.kucdn.cn/',
+      '/proxyApi': {
+        target: 'http://192.168.16.2:8092/',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/api'
-        }
-      },
-      '/assets': {
-        target: 'http://admin.test.kucdn.cn/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/assets': '/assets'
+          '^/proxyApi': '/'
         }
       }
     }
