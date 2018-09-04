@@ -59,11 +59,11 @@ var http = function(method, url, data = {}) {
       data
     }).then(({ data }) => {
       resolve(data)
-        // if (data.data.code === 200) {
-        //   resolve(data.data)
-        // } else if (data.data.code === 500) {
-        //   reject(data.data)
-        // }
+      // if (data.code === 200) {
+      //   resolve(data)
+      // } else if (data.code === 500) {
+      //   reject(data)
+      // }
     })
   })
 }
