@@ -2,31 +2,30 @@ import Axios from 'axios'
 import store from '@/store'
 import querystring from 'querystring'
 import { Message } from 'element-ui'
-import appconfig from '@/appconfig.js'
 
 const commit = store.commit || store.dispatch
 
 const options = {
-  baseURL: appconfig.apiBase,
-  timeout: 5000,
+  baseURL: '',
+  timeout: 1000 * 30,
   withCredentials: true
 }
+const CONTENT_TYPE = 'form'
 
-const axios = Axios.create(options)
-
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-axios.defaults.transformRequest = [function (data) {
-  return querystring.stringify(data)
-}]
-axios.defaults.paramsSerializer = function (params) {
-  return querystring.stringify(params, { arrayFormat: 'brackets' })
+function createInstance(options) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE === 'json' ? 'application/json; charset=utf-8' : 'application/x-www-form-urlencoded'
+  }
+  return Axios.create(Object.assign(options, headers))
 }
 
+const axios = createInstance(options)
+
 //  添加一个请求拦截器
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function(config) {
     commit('updateLoading', true)
     return config
-  }, function (error) {
+  }, function(error) {
     return Promise.reject(error)
   })
   //  添加一个响应拦截器
@@ -49,34 +48,24 @@ axios.interceptors.response.use(res => {
   return Promise.reject(err)
 })
 
-function get(path, params = {}) {
+var http = function(method, url, data = {}) {
+  if (method.toUpperCase() !== 'GET') {
+    data = CONTENT_TYPE === 'json' ? JSON.stringify(data) : querystring.stringify(data)
+  }
   return new Promise((resolve, reject) => {
-    axios.get(path + '?' + querystring.stringify(params)).then(res => {
-      resolve(res.data)
-        // if (res.data.code === 200) {
-        //   resolve(res.data)
-        // } else if (res.data.code === 500) {
-        //   reject(res.data)
+    axios({
+      url,
+      method,
+      data
+    }).then(({ data }) => {
+      resolve(data)
+        // if (data.data.code === 200) {
+        //   resolve(data.data)
+        // } else if (data.data.code === 500) {
+        //   reject(data.data)
         // }
     })
   })
 }
 
-function post(path, params = {}) {
-  return new Promise((resolve, reject) => {
-    axios.post(path, params).then(res => {
-      resolve(res.data)
-        // if (res.data.code === 200) {
-        //   console.log(res.data)
-        //   resolve(res.data)
-        // } else if (res.data.code === 500) {
-        //   reject(res.data)
-        // }
-    })
-  })
-}
-const http = {
-  get,
-  post
-}
 export default http;

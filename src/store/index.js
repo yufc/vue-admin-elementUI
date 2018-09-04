@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import base from './base'
 
 Vue.use(Vuex)
 
@@ -20,6 +21,9 @@ const store = new Vuex.Store({
     updateLoading(state, status) {
       state.loading = status
     }
+  },
+  modules: {
+    base
   }
 });
 
